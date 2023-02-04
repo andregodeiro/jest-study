@@ -18,18 +18,14 @@ const initializeApp = () => {
   app.use(express.json());
 
   app.use("/", routes);
-
   return app;
 };
-
 const app = initializeApp();
 const config = {
   port: process.env.PORT || 8080,
 };
-
 app.listen(config.port, () => {
   // eslint-disable-next-line no-console
   console.log("Express server listening on port", config.port);
 });
-
 module.exports = app;
