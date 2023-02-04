@@ -20,7 +20,6 @@ describe("test the recipes API", () => {
   afterAll(async (done) => {
     await User.deleteMany();
     mongoose.disconnect();
-    server.close(done);
   });
 
   // test login
@@ -41,6 +40,19 @@ describe("test the recipes API", () => {
             id: res.body.data.id,
             username: res.body.data.username,
           }),
+        })
+      );
+    });
+    it("do not sign in without the password", async () => {
+      const user = {
+        username: "admin",
+      };
+      const res = await request(app).post("/login").send(user);
+      expect(res.statusCode).toEqual(400);
+      expect(res.body).toEqual(
+        expect.objectContaining({
+          success: false,
+          message: "username or password can not be empty",
         })
       );
     });
